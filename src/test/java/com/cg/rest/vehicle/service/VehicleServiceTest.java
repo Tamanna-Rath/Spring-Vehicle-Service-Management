@@ -60,5 +60,31 @@ public class VehicleServiceTest {
 		        assertThat(vehicleService.getAllVehicles()).isEqualTo(vehicleList);
 	 }
 	 
-	 
+	 @Test
+		public void testGetVehicle() throws Exception {
+			Vehicle vehicle = new Vehicle();
+			vehicle.setVehicleId(1);
+			vehicle.setVehicleBrand("Tata");
+			vehicle.setVehicleNumber("MH09H");
+			vehicle.setVehicleType("Four-Wheeler");
+			
+			Optional<Vehicle> vehicle1 = Optional.of(vehicle);
+			Mockito.when(vehicleJpaDao.findById(1)).thenReturn(vehicle1);
+			assertThat(vehicleService.getVehicle(1)).isEqualTo(vehicle);
+		}
+
+		@Test
+		public void testSaveAndFlush() throws Exception {
+			Vehicle vehicle1 = new Vehicle();
+			vehicle1.setVehicleId(1);
+			vehicle1.setVehicleBrand("Yamaha");
+			vehicle1.setVehicleNumber("MH09");
+			vehicle1.setVehicleType("Two-Wheeler");
+			Optional<Vehicle> optional= Optional.of(vehicle1);
+			Mockito.when(vehicleJpaDao.findById(1)).thenReturn(optional);
+			 vehicle1=optional.get();
+			 vehicle1.setVehicleNumber("MH085");
+			  Mockito.when(vehicleJpaDao.saveAndFlush(vehicle1)).thenReturn(vehicle1);
+			assertThat(vehicleService.saveAndFlush(vehicle1, 1)).isEqualTo(vehicle1);
+		}
 }

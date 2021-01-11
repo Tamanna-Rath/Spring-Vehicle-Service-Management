@@ -53,6 +53,26 @@ public class VehicleJpaDaoTest {
         assertThat(getInDb).isEqualTo(saveInDb);
  }
  
+ @Test
+	public void  testGetAllVehicles() throws Exception{
+	 Vehicle vehicle = new Vehicle();
+		vehicle.setVehicleBrand("Tata");
+		vehicle.setVehicleNumber("MH09HD5666");
+		vehicle.setVehicleType("Four-Wheeler");
+		
+		 Vehicle vehicle1 = new Vehicle();
+		 vehicle1.setVehicleBrand("Texas");
+			vehicle1.setVehicleNumber("MH09HD");
+			vehicle1.setVehicleType("Four-Wheeler");
+			
+			testEntityManager.persist(vehicle);
+	        testEntityManager.persist(vehicle1);
+			
+			List<Vehicle> vehicleList= (List<Vehicle>) vehicleJpaDao.findAll();
+			
+	        Assert.assertEquals(2, vehicleList.size());
+}
+ 
  
  @Test
 	public void testSaveAndFlush() {

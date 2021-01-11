@@ -2,6 +2,7 @@ package com.cg.rest.mechanic.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -68,6 +69,37 @@ public class MechanicServiceTest {
 
 	}
 	
-	
+	@Test	
+	public void testGetMechanic() throws Exception{
+		Mechanic mechanic = new Mechanic();
+		mechanic.setMechanicId(103);
+		mechanic.setmFirstName("Yuvraj");
+		mechanic.setmLastName("Patel");
+		mechanic.setmContactNumber("74589632145");
+		mechanic.setmEmail("yuvrajpatel@gmail.com");
+		mechanic.setmAddress("Goa");
+		//Mechanic v= mechanicJpaDao.findById(103).get();
+		Optional<Mechanic> optional= Optional.of(mechanic);
+		Mockito.when(mechanicJpaDao.findById(103)).thenReturn(optional);
+        assertThat(mechanicService.getMechanic(103)).isEqualTo(mechanic);
+	}
+	@Test
+	public void testSaveAndFlush() throws Exception{
+		Mechanic mechanic= new Mechanic();
+		mechanic.setMechanicId(1);
+		mechanic.setmFirstName("Manisha");
+		mechanic.setmLastName("Singh");
+		mechanic.setmContactNumber("7896541254");
+		mechanic.setmEmail("manishasingh@gmail.com");
+		mechanic.setmAddress("Delhi");
+		
+		Optional<Mechanic> optional= Optional.of(mechanic);
+		  Mockito.when(mechanicJpaDao.findById(1)).thenReturn(optional);
+		  mechanic=optional.get();
+		  mechanic.setmAddress("Haryana");;
+			  Mockito.when(mechanicJpaDao.saveAndFlush(mechanic)).thenReturn(mechanic);
+			
+        assertThat(mechanicService.saveAndFlush(mechanic, 1)).isEqualTo(mechanic);
+	}
 	
 	}
